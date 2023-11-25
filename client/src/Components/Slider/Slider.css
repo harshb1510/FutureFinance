@@ -1,0 +1,22 @@
+.carouselItems{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin: 20px;
+}
+
+.carouselItem{
+    font-size: 30px;
+    color:  rgb(62, 226, 62);
+    font-weight: bolder;
+}
+
+.carousel-item{
+    width: 1500px;
+    
+}
+.Carousel-images{
+    object-fit: contain;
+    height: 50px;
+}

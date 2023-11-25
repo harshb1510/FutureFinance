@@ -1,0 +1,45 @@
+.serviceContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    margin-top: 50px;
+    padding-bottom: 70px;
+}
+
+.left{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.right{
+    display: grid;
+    place-items: flex-start;
+    gap: 50px;
+    font-size: 30px;
+}
+
+.service1{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.service2{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.service3{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.serviceIcon{
+    color: green;
+    padding-right: 30px;
+    width: 100px;
+}

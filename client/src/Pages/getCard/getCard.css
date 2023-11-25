@@ -1,0 +1,178 @@
+:root {
+    --card-height: 2.125in;
+    --card-width: 3.375in;
+    --card-radius: 0.125in;
+    --card-thickness: 0in;
+  }
+
+
+  
+  .wrapper {
+    height: 50vh;
+    display: grid;
+    place-items: center;
+  /*   background: linear-gradient(#e66465, #9198e5); */
+    /* background-image: url('https://i.pin.getCard-images
+.com/originals/fa/c0/5c/fac05c110c458e9bab3a3248bfb3c376.jpg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172)); */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    
+  }
+  
+  /* Hide scrollbar for Chrome, Safari, Opera */
+  .wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .card {
+    border: 1px solid transparent;
+    padding: 1rem;
+    height: 100%;
+    width: auto;
+    width: var(--card-width);
+    height: var(--card-height);
+    border-radius: var(--card-radius);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+    
+    color: white;
+  }
+  
+  .card-details {
+  /*   display: grid;
+    grid-template-columns: repeat(2, 1fr); */
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+  
+  .top {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    position: relative;
+  }
+  
+  .name {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 16px;
+    letter-spacing: 1px;
+    margin-top: 3px;
+    width: 50%;
+  }
+  
+  .name::first-line {
+    font-size: 22px;
+  }
+  
+  .title {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0 5px;
+  }
+  
+  .bottom {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .reader {
+    margin: 5px 0 0 20px;
+  }
+  
+  .type {
+    text-align: right;
+    line-height: 25px;
+    position: relative;
+    margin: 0 -5px -25px;
+  }
+  
+  .category {
+    font-size: 36px;
+  }
+  
+  .subcategory {
+    font-weight: 300;
+    font-family: "Nunito", sans-serif;
+  }
+  
+  .cardholder {
+    font-family: 'IBM Plex Mono', monospace;
+    margin-left: 10px;
+  }
+  
+  .logo .getCard-images
+,
+  .chip .getCard-images
+,
+  .number,
+  .from,
+  .to,
+  .ring {
+    position: absolute; /* All items inside card should have absolute position */
+  }
+  
+  .logo .getCard-images
+ {
+    width: 80px;
+    height: auto;
+    right: 0;
+    bottom: 25px;
+  }
+  
+  .chip .getCard-images
+ {
+    top: 50px;
+    left: 20px;
+    width: 60px;
+    height: 40px;
+  }
+  
+  /* CHASE LOGO CSS */
+  .hexagon {
+    position: relative;
+    width: 45px;
+  }
+  
+  .trapezoid {
+    position: absolute;
+    border-bottom: 10px solid #fff;
+      border-left: 0px solid transparent;
+      border-right: 10px solid transparent;
+      height: 0;
+      width: 25px;
+  }
+  
+  #t-1 {
+    top: 0;
+    left: 15px;
+  }
+  
+  #t-2 {
+    transform: rotate(90deg);
+    top: 19px;
+    left: 23px;
+  }
+  
+  #t-3 {
+    transform: rotate(180deg);
+    top: 27px;
+    left: 4px;
+  }
+  
+  #t-4 {
+    transform: rotate(-90deg);
+    top: 8px;
+    left: -4px;
+  }
+  
+  .wrapper::-webkit-scrollbar {
+    display: none;
+  }

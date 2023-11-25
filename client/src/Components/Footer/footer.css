@@ -1,0 +1,42 @@
+.footerLogo{
+    font-size: 40px;
+}
+.footerWrapper{
+    display: flex;
+    color: rgb(221, 217, 217);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footerCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.footerCenter{
+    margin-top: 120px;
+    font-size: 20px;
+}
+
+.footerCenterLeftItems{
+    padding-bottom: 7px;
+}
+.footerRight{
+    margin:10px;
+}
+
+.footerInput{
+    padding: 5px;
+    border-radius: 5px;
+    padding-right: 4px;
+    margin-right: 4px;
+}
+.footerInputButton{
+    background-color: rgb(23, 150, 23);
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}

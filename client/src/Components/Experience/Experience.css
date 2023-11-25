@@ -1,0 +1,31 @@
+.experienceContainer{
+    display: grid;
+    border: solid white;
+}
+.experienceTop{
+    color: white;
+    display: grid;
+    place-items: center;
+    gap: 15px;
+    
+}
+
+.experienceHeadline{
+font-size: 40px;
+}
+
+.experienceParagraph{
+    color: rgb(165, 160, 160);
+    font-size: 15px;
+    text-align: center;
+}
+
+.experienceBottom{
+    color: white;
+}
+
+.experienceSpan{
+    font-size: 15px;
+    color: rgb(165, 160, 160);
+    text-align: justify;
+}

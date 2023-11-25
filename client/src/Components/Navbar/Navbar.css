@@ -1,0 +1,87 @@
+/* Navbar.css */
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; /* Add position relative for pseudo-element positioning */
+  }
+  
+  .brandLink {
+    text-decoration: none;
+  }
+  
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .nav-left {
+    color: white;
+    font-weight: bolder;
+    font-size: 30px;
+  }
+  
+  .nav-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: white;
+    font-size: 20px;
+  }
+  
+  .nav-center div {
+    position: relative;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .nav-center div:hover::before {
+    width: 100%;
+  }
+  
+  .nav-center div::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white; /* Change to white */
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .login-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .signup-button {
+    background-color: rgb(62, 226, 62);
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+  }
+  
+  .profileImg {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+    border-radius: 100%;
+  }
+  
