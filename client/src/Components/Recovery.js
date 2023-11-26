@@ -11,13 +11,13 @@ export default function Recovery() {
   const [OTP, setOTP] = useState();
   const navigate = useNavigate()
 
-  useEffect(() => {
-    generateOTP(username).then((OTP) => {
-      console.log(OTP)
-      if(OTP) return toast.success('OTP has been send to your email!');
-      return toast.error('Problem while generating OTP!')
-    })
-  }, [username]);
+  // useEffect(() => {
+  //   generateOTP(username).then((OTP) => {
+  //     console.log(OTP)
+  //     if(OTP) return toast.success('OTP has been send to your email!');
+  //     return toast.error('Problem while generating OTP!')
+  //   })
+  // }, [username]);
 
   async function onSubmit(e){
     e.preventDefault();

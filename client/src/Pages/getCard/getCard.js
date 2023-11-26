@@ -1,11 +1,41 @@
 // CreditCard.js
 import React, { useEffect, useState } from "react";
 import "./getCard.css";
+import jwtDecode from "jwt-decode";
+
 
 
 const CreditCard = () => {
+
   const [transformStyle, setTransformStyle] = useState("none");
 
+  const user = localStorage.getItem("token");
+  const decodedUser =   user? jwtDecode(user):null;
+  // const { username } = useAuthStore(state => state.auth)
+
+  const [name, setName] = useState("")
+  
+  const username = decodedUser? decodedUser.username:null;
+
+  useEffect(() => {
+    const fetchUser = () => {
+      if(username){
+    fetch(`http://localhost:8080/api/user/${username}`)
+    .then(res => res.json())
+    .then(data => {
+      // console.log(data)
+      setName(data.username)
+      // console.log(profile)
+    })
+    .catch(err => console.log(err))
+  
+  }
+  }
+    fetchUser()
+
+  }, [username])
+  
+  
 
   const constrain = 200;
 
@@ -72,7 +102,7 @@ const CreditCard = () => {
           </div>{" "}
           <div className="bottom">
             {" "}
-            <h3 className="cardholder">Username</h3>{" "}
+            <h3 className="cardholder">{name}</h3>{" "}
             <div className="type">
               {" "}
               <div className="logo">
