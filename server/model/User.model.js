@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const TransactionSchema = new mongoose.Schema({
+    referenceNumber: String,
+    type: String,
+    accountNumber: String,
+    amount: Number,
+    date: String,
+  });
+
+  
 export const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -20,15 +29,8 @@ export const UserSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide a unique account number"],
   },
-  transactions: [
-    {
-      referenceNumber: String,
-      type: String,
-      accountNumber: String,
-      amount: Number,
-      date: Date,
-    },
-  ],
+
+  transactions: [TransactionSchema], // Use the TransactionSchema for transactions
 
   firstName: { type: String },
   lastName: { type: String },

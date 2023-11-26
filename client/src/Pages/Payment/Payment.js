@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import "./payment.css";
 import jwtDecode from "jwt-decode";
@@ -58,6 +58,8 @@ const Payment = () => {
     setIsTransactionHistoryModalOpen(false);
   };
 
+
+
   const username = decodedUser ? decodedUser.username : null;
   const [data, setData] = useState({
     pin: "",
@@ -67,6 +69,22 @@ const Payment = () => {
     addMoney: "",
     transferMoney: "",
   });
+  const [transactions, setTransactions] = useState([]); 
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/user/${username}`
+        );
+        setTransactions(response.data.transactions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTransactions();
+  }, [username]);
+
 
   const handleAddMoney = (amount) => {
     const currentAmount = parseFloat(money.addMoney) || 0;
@@ -124,8 +142,6 @@ const Payment = () => {
         `http://localhost:8080/api/user/${username}/pinMatch`,
         { pin: data.pin }
       );
-
-      // Assuming postPin.data.balance is the current balance after PIN verification
 
       // Now, make a request to transfer money
       const transferMoneyResponse = await axios.post(
@@ -278,27 +294,25 @@ const Payment = () => {
           </div>
         </Modal>
         <Modal
-          isOpen={isTransactionHistoryModalOpen}
-          onRequestClose={closeModal}
-          contentLabel="Transaction History Modal"
-        >
-          <div>
-            <h2>Transaction History</h2>
-            <div className="transaction-cards">
-              {/* {transactionData.map((transaction, index) => ( */}
-                <div 
-                // key={index} 
-                className="transaction-card">
-                  <h3>Reference Number: fchgvjbhkj</h3>
-                  <p>Type: CR</p>
-                  <p>Account Number: 35154865315</p>
-                  <p>Amount: 520</p>
-                </div>
-              {/* ) */}
-              {/* )} */}
-            </div>
-          </div>
-        </Modal>
+  isOpen={isTransactionHistoryModalOpen}
+  onRequestClose={closeModal}
+  contentLabel="Transaction History Modal"
+>
+  <div>
+    <h2>Transaction History</h2>
+    <div className="transaction-cards">
+      {transactions.map((transaction, index) => (
+        <div key={index} className="transaction-card">
+          <h3>Reference Number: {transaction.referenceNumber}</h3>
+          <p>Type: {transaction.type}</p>
+          <p>Account Number: {transaction.accountNumber}</p>
+          <p>Amount: {transaction.amount}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</Modal>
+
 
         {/* Other buttons */}
         <div>
