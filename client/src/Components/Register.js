@@ -20,7 +20,8 @@ export default function Register() {
       email: '',
       username: '',
       password : '',
-      pin:''
+      pin:'',
+      accountNumber: '',
     },
     validate : registerValidation,
     validateOnBlur: false,
