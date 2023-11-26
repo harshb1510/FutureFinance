@@ -14,9 +14,10 @@ const Payment = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false);
-  const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] = useState(
-    false
-  );
+  const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] =
+    useState(false);
+  const [isTransactionHistoryModalOpen, setIsTransactionHistoryModalOpen] =
+    useState(false);
 
   const openModal = () => {
     if (user) {
@@ -42,11 +43,19 @@ const Payment = () => {
     }
   };
 
+  const openTransactionHistory = () => {
+    if (user) {
+      setIsTransactionHistoryModalOpen(true);
+    } else {
+      toast.error("Login First");
+    }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setIsAddMoneyModalOpen(false);
     setIsTransferMoneyModalOpen(false);
+    setIsTransactionHistoryModalOpen(false);
   };
 
   const username = decodedUser ? decodedUser.username : null;
@@ -59,14 +68,11 @@ const Payment = () => {
     transferMoney: "",
   });
 
-
   const handleAddMoney = (amount) => {
     const currentAmount = parseFloat(money.addMoney) || 0;
     const newAmount = currentAmount + amount;
     setMoney({ ...money, addMoney: newAmount.toFixed(2) });
   };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,7 +117,7 @@ const Payment = () => {
     }
   };
 
- const handleTransferMoney = async (e) => {
+  const handleTransferMoney = async (e) => {
     e.preventDefault();
     try {
       const postPin = await axios.post(
@@ -130,17 +136,19 @@ const Payment = () => {
         }
       );
       // Assuming transferMoneyResponse.data.balance is the updated balance after transfering money
-      toast.success(money.transferMoney + "  " + " is transfered to Account No." + data.account);
+      toast.success(
+        money.transferMoney +
+          "  " +
+          " is transfered to Account No." +
+          data.account
+      );
       closeModal();
       setData({ ...data, account: "", pin: "" });
       setMoney({ ...money, transferMoney: "" });
     } catch (error) {
       console.error(error);
     }
-  }
-
-
-
+  };
 
   return (
     <>
@@ -160,9 +168,11 @@ const Payment = () => {
           <div>
             <h2 className="payment-h2">Check Balance</h2>
             <form className="payment-form" onSubmit={handleSubmit}>
-              <label className="payment-label" htmlFor="pin">Enter PIN:</label>
-              <input 
-              className="payment-input"
+              <label className="payment-label" htmlFor="pin">
+                Enter PIN:
+              </label>
+              <input
+                className="payment-input"
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -170,7 +180,9 @@ const Payment = () => {
                 required
                 placeholder="PIN"
               />
-              <button className="payment-button" type="submit">Proceed</button>
+              <button className="payment-button" type="submit">
+                Proceed
+              </button>
             </form>
           </div>
         </Modal>
@@ -206,10 +218,9 @@ const Payment = () => {
                 <button type="button" onClick={() => handleAddMoney(1000)}>
                   1000
                 </button>
-
               </div>
-              <input 
-              className="payment-input"
+              <input
+                className="payment-input"
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -227,7 +238,6 @@ const Payment = () => {
           contentLabel="Transfer Money Modal"
         >
           <div>
-                
             <h2>Transfer Money</h2>
             <form onSubmit={handleTransferMoney} id="form">
               <label htmlFor="account"> Enter Account No. :</label>
@@ -235,9 +245,7 @@ const Payment = () => {
                 type="number"
                 name="account"
                 value={data.account}
-                onChange={(e) =>
-                  setData({ ...data, account: e.target.value })
-                }
+                onChange={(e) => setData({ ...data, account: e.target.value })}
                 required
                 placeholder="Account No."
               />
@@ -255,10 +263,9 @@ const Payment = () => {
                 placeholder="Amount"
               />
               <br></br>
-            <label htmlFor="pin">Enter PIN:</label>
-            <br></br>
+              <label htmlFor="pin">Enter PIN:</label>
+              <br></br>
               <input
-
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -270,8 +277,28 @@ const Payment = () => {
             </form>
           </div>
         </Modal>
-
-
+        <Modal
+          isOpen={isTransactionHistoryModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Transaction History Modal"
+        >
+          <div>
+            <h2>Transaction History</h2>
+            <div className="transaction-cards">
+              {/* {transactionData.map((transaction, index) => ( */}
+                <div 
+                // key={index} 
+                className="transaction-card">
+                  <h3>Reference Number: fchgvjbhkj</h3>
+                  <p>Type: CR</p>
+                  <p>Account Number: 35154865315</p>
+                  <p>Amount: 520</p>
+                </div>
+              {/* ) */}
+              {/* )} */}
+            </div>
+          </div>
+        </Modal>
 
         {/* Other buttons */}
         <div>
@@ -280,10 +307,14 @@ const Payment = () => {
           </button>
         </div>
         <div>
-          <button className="payment-option" onClick={openTransferMoneyModal}>Transfer Money</button>
+          <button className="payment-option" onClick={openTransferMoneyModal}>
+            Transfer Money
+          </button>
         </div>
         <div>
-          <button className="payment-option">Transaction History</button>
+          <button className="payment-option" onClick={openTransactionHistory}>
+            Transaction History
+          </button>
         </div>
         <Toaster
           position="top-center"
