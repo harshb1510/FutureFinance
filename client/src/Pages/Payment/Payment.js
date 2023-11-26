@@ -58,6 +58,8 @@ const Payment = () => {
       );
       console.log(postPin);
       toast.success("Balance :" + postPin.data.balance);
+      closeModal();
+      setData({ ...data, pin: "" });
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +84,9 @@ const Payment = () => {
       );
       // Assuming addMoneyResponse.data.balance is the updated balance after adding money
       toast.success(money.addMoney + "  " + " is credited into your account");
+      closeModal();
+      setMoney({ ...money, addMoney: "" });
+      setData({ ...data, pin: "" });
     } catch (error) {
       console.error(error);
     }
@@ -151,7 +156,17 @@ const Payment = () => {
                 <button type="button" onClick={() => handleAddMoney(1000)}>
                   1000
                 </button>
+
               </div>
+              <input 
+              className="payment-input"
+                type="password"
+                name="pin"
+                value={data.pin}
+                onChange={(e) => setData({ ...data, pin: e.target.value })}
+                required
+                placeholder="PIN"
+              />
               <button type="submit">Add Money</button>
             </form>
           </div>
