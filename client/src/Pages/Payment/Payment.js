@@ -14,6 +14,10 @@ const Payment = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false);
+  const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] = useState(
+    false
+  );
+
   const openModal = () => {
     if (user) {
       setIsModalOpen(true);
@@ -30,24 +34,39 @@ const Payment = () => {
     }
   };
 
+  const openTransferMoneyModal = () => {
+    if (user) {
+      setIsTransferMoneyModalOpen(true);
+    } else {
+      toast.error("Login First");
+    }
+  };
+
+
   const closeModal = () => {
     setIsModalOpen(false);
     setIsAddMoneyModalOpen(false);
+    setIsTransferMoneyModalOpen(false);
   };
 
   const username = decodedUser ? decodedUser.username : null;
   const [data, setData] = useState({
     pin: "",
+    account: "",
   });
   const [money, setMoney] = useState({
     addMoney: "",
+    transferMoney: "",
   });
+
 
   const handleAddMoney = (amount) => {
     const currentAmount = parseFloat(money.addMoney) || 0;
     const newAmount = currentAmount + amount;
     setMoney({ ...money, addMoney: newAmount.toFixed(2) });
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,6 +110,37 @@ const Payment = () => {
       console.error(error);
     }
   };
+
+ const handleTransferMoney = async (e) => {
+    e.preventDefault();
+    try {
+      const postPin = await axios.post(
+        `http://localhost:8080/api/user/${username}/pinMatch`,
+        { pin: data.pin }
+      );
+
+      // Assuming postPin.data.balance is the current balance after PIN verification
+
+      // Now, make a request to transfer money
+      const transferMoneyResponse = await axios.post(
+        `http://localhost:8080/api/user/${username}/transferMoney`,
+        {
+          account: data.account,
+          amount: parseFloat(money.transferMoney),
+        }
+      );
+      // Assuming transferMoneyResponse.data.balance is the updated balance after transfering money
+      toast.success(money.transferMoney + "  " + " is transfered to Account No." + data.account);
+      closeModal();
+      setData({ ...data, account: "", pin: "" });
+      setMoney({ ...money, transferMoney: "" });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
 
   return (
     <>
@@ -171,6 +221,57 @@ const Payment = () => {
             </form>
           </div>
         </Modal>
+        <Modal
+          isOpen={isTransferMoneyModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Transfer Money Modal"
+        >
+          <div>
+                
+            <h2>Transfer Money</h2>
+            <form onSubmit={handleTransferMoney} id="form">
+              <label htmlFor="account"> Enter Account No. :</label>
+              <input
+                type="number"
+                name="account"
+                value={data.account}
+                onChange={(e) =>
+                  setData({ ...data, account: e.target.value })
+                }
+                required
+                placeholder="Account No."
+              />
+              <br></br>
+              <label htmlFor="amount">Enter Amount:</label>
+              <input
+                type="number"
+                step="0.01"
+                name="amount"
+                value={money.transferMoney}
+                onChange={(e) =>
+                  setMoney({ ...money, transferMoney: e.target.value })
+                }
+                required
+                placeholder="Amount"
+              />
+              <br></br>
+            <label htmlFor="pin">Enter PIN:</label>
+            <br></br>
+              <input
+
+                type="password"
+                name="pin"
+                value={data.pin}
+                onChange={(e) => setData({ ...data, pin: e.target.value })}
+                required
+                placeholder="PIN"
+              />
+              <button type="submit">Transfer Money</button>
+            </form>
+          </div>
+        </Modal>
+
+
 
         {/* Other buttons */}
         <div>
@@ -179,7 +280,7 @@ const Payment = () => {
           </button>
         </div>
         <div>
-          <button className="payment-option">Transfer Money</button>
+          <button className="payment-option" onClick={openTransferMoneyModal}>Transfer Money</button>
         </div>
         <div>
           <button className="payment-option">Transaction History</button>

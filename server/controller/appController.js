@@ -38,6 +38,42 @@ export async function addMoney(req,res){
       }
 }
 
+export async function transferMoney(req, res) {
+    try {
+        const { username } = req.params;
+        const { account, amount } = req.body;
+
+        const user1 = await UserModel.findOne({ account });
+        if (!user1) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const user2 = await UserModel.findOne({ username });
+        if (!user2) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const currentBalance1 = user1.balance || 0;
+        const amountToAdd = parseInt(amount, 10);
+        user1.balance = currentBalance1 + amountToAdd;
+
+        const currentBalance2 = user2.balance || 0;
+        user2.balance = currentBalance2 - amountToAdd;
+
+        await Promise.all([user1.save(), user2.save()]);
+
+        res.json({ 
+            senderBalance: user1.balance,
+            receiverBalance: user2.balance
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
+
 export async function pinMatch(req, res) {
     
     try {
@@ -78,7 +114,7 @@ export async function pinMatch(req, res) {
 
 export async function register(req, res) {
     try {
-        const { username, password, profile, email,pin } = req.body;
+        const { username, password, profile, email,pin, accountNumber } = req.body;
 
         // Check the existing username
         const existUsername = await UserModel.findOne({ username });
@@ -93,14 +129,18 @@ export async function register(req, res) {
         } else {
             if (password) {
                 const hashedPassword = await bcrypt.hash(password, 10);
+                const accountNumber1 = Math.floor(1000000000 + Math.random() * 9000000000);
 
                 const user = new UserModel({
                     username,
                     password: hashedPassword,
                     profile: profile || '',
                     email,
-                    pin
+                    pin,
+                    accountNumber: accountNumber1
                 });
+
+                console.log(user);
 
                 // Save the user and handle the result
                 try {

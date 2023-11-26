@@ -15,6 +15,7 @@ router.route('/authenticate').post(controller.verifyUser, (req, res) => res.end(
 router.route('/login').post(controller.verifyUser,controller.login); // login in app
 router.route('/user/:username/pinMatch').post(controller.pinMatch);
 router.route('/user/:username/addMoney').post(controller.addMoney);
+router.route('/user/:username/transferMoney').post(controller.transferMoney);
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser) // user with username
