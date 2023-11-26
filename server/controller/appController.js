@@ -73,6 +73,27 @@ export async function transferMoney(req, res) {
         const amountToAdd = parseInt(amount, 10);
         user1.balance = currentBalance1 + amountToAdd;
 
+        const referenceNumber1 = Math.floor(1000000000 + Math.random() * 9000000000);
+
+        const newTransaction1 = {
+            referenceNumber: referenceNumber1 ,
+            type: 'Credit',
+            accountNumber: user2.accountNumber,
+            amount: amountToAdd,
+            date: new Date().toISOString().split('T')[0],
+        };
+
+        user1.transactions.push(newTransaction1);
+
+        const newTransaction2 = {
+            referenceNumber: referenceNumber1,
+            type: 'Debit',
+            accountNumber: user1.accountNumber,
+            amount: amountToAdd,
+            date: new Date().toISOString().split('T')[0],
+        };
+
+        user2.transactions.push(newTransaction2);
         const currentBalance2 = user2.balance || 0;
         user2.balance = currentBalance2 - amountToAdd;
 

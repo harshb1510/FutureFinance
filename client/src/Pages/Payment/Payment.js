@@ -130,6 +130,7 @@ const Payment = () => {
       closeModal();
       setMoney({ ...money, addMoney: "" });
       setData({ ...data, pin: "" });
+      // window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -161,6 +162,7 @@ const Payment = () => {
       closeModal();
       setData({ ...data, account: "", pin: "" });
       setMoney({ ...money, transferMoney: "" });
+      // window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -307,6 +309,7 @@ const Payment = () => {
           <p>Type: {transaction.type}</p>
           <p>Account Number: {transaction.accountNumber}</p>
           <p>Amount: {transaction.amount}</p>
+          <p>Date: {transaction.date}</p>
         </div>
       ))}
     </div>
