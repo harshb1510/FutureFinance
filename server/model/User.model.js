@@ -1,21 +1,14 @@
 import mongoose from "mongoose";
 
 const TransactionSchema = new mongoose.Schema({
-  amount: {
-    type: Number,
-    required: true,
-  },
-  type: {
+    referenceNumber: String,
     type: String,
-    enum: ['credited', 'withdrawal', 'transfer','deposit'],
-    required: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
-});
+    accountNumber: String,
+    amount: Number,
+    date: String,
+  });
 
+  
 export const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -35,8 +28,10 @@ export const UserSchema = new mongoose.Schema({
   accountNumber: {
     type: Number,
     required: [true, "Please provide a unique account number"],
-    unique: true,
   },
+
+  transactions: [TransactionSchema], // Use the TransactionSchema for transactions
+
   firstName: { type: String },
   lastName: { type: String },
   mobile: { type: Number },
@@ -44,7 +39,6 @@ export const UserSchema = new mongoose.Schema({
   profile: { type: String },
   balance: { type: Number },
   pin: { type: String },
-  transactions: [TransactionSchema], // Array to store transaction history
 });
 
-export default mongoose.model.Users || mongoose.model('User', UserSchema);
+export default mongoose.model.Users || mongoose.model("User", UserSchema);
