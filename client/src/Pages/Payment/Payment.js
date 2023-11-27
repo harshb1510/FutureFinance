@@ -4,11 +4,13 @@ import "./payment.css";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 // Set the app element for react-modal
 Modal.setAppElement("#root"); // replace '#root' with the ID of your root element
 
 const Payment = () => {
+  const navigate = useNavigate();
   const user = localStorage.getItem("token");
   const decodedUser = user ? jwtDecode(user) : null;
 
@@ -139,6 +141,13 @@ const Payment = () => {
     }
   }
 
+  const transactionHistory= async ()=>{
+    if(user){
+      navigate("/transactionHistory");
+    }else{
+      toast.error("Login First");
+    }
+  }
 
 
 
@@ -283,7 +292,7 @@ const Payment = () => {
           <button className="payment-option" onClick={openTransferMoneyModal}>Transfer Money</button>
         </div>
         <div>
-          <button className="payment-option">Transaction History</button>
+          <button className="payment-option" onClick={transactionHistory}>Transaction History</button>
         </div>
         <Toaster
           position="top-center"

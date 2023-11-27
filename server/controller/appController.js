@@ -29,7 +29,18 @@ export async function addMoney(req,res){
         }
         const currentBalance = user.balance || 0;
         const amountToAdd = parseFloat(req.body.addMoney);
+
+        user.transactions = user.transactions || [];
+
+        // Update balance
         user.balance = currentBalance + amountToAdd;
+
+        // Update transaction history for deposit
+        user.transactions.push({
+            amount: amountToAdd,
+            type: 'credited', // 'deposit' indicates money added
+            timestamp: new Date(),
+        });
         await user.save();
         res.json({ balance: user.balance });
       } catch (error) {
@@ -60,8 +71,24 @@ export async function transferMoney(req, res) {
         const currentBalance2 = user2.balance || 0;
         user2.balance = currentBalance2 - amountToAdd;
 
-        await Promise.all([user1.save(), user2.save()]);
+        user1.transactions = user1.transactions || [];
+        user2.transactions = user2.transactions || [];
 
+        user1.transactions.push({
+            amount: amountToAdd,
+            type: 'credited', 
+            timestamp: new Date(),
+            
+        });
+
+        user2.transactions.push({
+            amount: amountToAdd,
+            type: 'transfer', 
+            timestamp: new Date(),
+        });
+
+        await Promise.all([user1.save(), user2.save()]);
+        console.log(user1);
         res.json({ 
             senderBalance: user1.balance,
             receiverBalance: user2.balance
@@ -70,6 +97,20 @@ export async function transferMoney(req, res) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+}
+
+export async function transactionHistory(req,res){
+    try{
+        const {username}=req.params;
+        const user=await UserModel.findOne({username});
+        if(!user){
+            return res.status(404).json({error:"User not found"});
+        }
+        res.json({transactions:user.transactions});
+        }catch(err){
+            console.error(err);
+            res.status(500).json({error:"Internal Server Error"});
+        }
 }
 
 

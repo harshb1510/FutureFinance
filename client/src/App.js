@@ -16,6 +16,7 @@ import Contact from "./Pages/ContactUs/Contact";
 import Payment from "./Pages/Payment/Payment";
 import Card from "./Pages/getCard/getCard";
 import Terms from "./Pages/Terms/Terms";
+import History from './Pages/transactionHistory/History';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
       <div className="app">
         <Navbar />
         <Outlet />
-        <Footer />
+        <Footer  />
       </div>
     );
   };
@@ -55,6 +56,9 @@ function App() {
         },
         { path: "/payment",
         element: <Payment /> 
+        },
+        { path: "/transactionHistory",
+         element: <History /> 
         },
         { path: "/register",
          element: <Register /> 
