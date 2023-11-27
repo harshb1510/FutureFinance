@@ -10,6 +10,19 @@ import { useNavigate } from "react-router-dom";
 Modal.setAppElement("#root"); // replace '#root' with the ID of your root element
 
 const Payment = () => {
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background:"#dcd9d9",
+      borderRadius: "10px"
+    },
+  };
+
   const navigate = useNavigate();
   const user = localStorage.getItem("token");
   const decodedUser = user ? jwtDecode(user) : null;
@@ -47,7 +60,7 @@ const Payment = () => {
 
   const openTransactionHistory = () => {
     if (user) {
-      setIsTransactionHistoryModalOpen(true);
+      navigate("/transactionHistory");
     } else {
       toast.error("Login First");
     }
@@ -57,7 +70,6 @@ const Payment = () => {
     setIsModalOpen(false);
     setIsAddMoneyModalOpen(false);
     setIsTransferMoneyModalOpen(false);
-    setIsTransactionHistoryModalOpen(false);
   };
 
 
@@ -170,6 +182,7 @@ const Payment = () => {
     }
   };
 
+
   return (
     <>
       <div className="payment-options">
@@ -184,15 +197,16 @@ const Payment = () => {
           isOpen={isModalOpen}
           onRequestClose={closeModal}
           contentLabel="Check Balance Modal"
+          style={customStyles}
         >
-          <div>
+          <div className="profile-wrapper">
             <h2 className="payment-h2">Check Balance</h2>
             <form className="payment-form" onSubmit={handleSubmit}>
               <label className="payment-label" htmlFor="pin">
                 Enter PIN:
               </label>
               <input
-                className="payment-input"
+                className="modal-input"
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -200,7 +214,7 @@ const Payment = () => {
                 required
                 placeholder="PIN"
               />
-              <button className="payment-button" type="submit">
+              <button className="usernameButton" type="submit">
                 Proceed
               </button>
             </form>
@@ -211,12 +225,14 @@ const Payment = () => {
           isOpen={isAddMoneyModalOpen}
           onRequestClose={closeModal}
           contentLabel="Add Money Modal"
+          style={customStyles}
         >
-          <div>
-            <h2>Add Money</h2>
-            <form onSubmit={handleAddMoneySubmit} id="form">
-              <label htmlFor="addMoney">Enter Amount:</label>
+          <div className="profile-wrapper">
+            <h2 className="payment-h2">Add Money</h2>
+            <form onSubmit={handleAddMoneySubmit} id="form" className="payment-form">
+              <label htmlFor="addMoney" className="payment-label">Enter Amount:</label>
               <input
+               className="modal-input"
                 type="number"
                 step="0.01"
                 name="addMoney"
@@ -229,18 +245,18 @@ const Payment = () => {
               />
 
               <div>
-                <button type="button" onClick={() => handleAddMoney(200)}>
+                <button type="button" className="usernameButton" onClick={() => handleAddMoney(200)}>
                   200
                 </button>
-                <button type="button" onClick={() => handleAddMoney(500)}>
+                <button type="button" className="usernameButton" onClick={() => handleAddMoney(500)}>
                   500
                 </button>
-                <button type="button" onClick={() => handleAddMoney(1000)}>
+                <button type="button" className="usernameButton" onClick={() => handleAddMoney(1000)}>
                   1000
                 </button>
               </div>
               <input
-                className="payment-input"
+                className="modal-input"
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -248,7 +264,7 @@ const Payment = () => {
                 required
                 placeholder="PIN"
               />
-              <button type="submit">Add Money</button>
+              <button className="usernameButton" type="submit">Add Money</button>
             </form>
           </div>
         </Modal>
@@ -256,12 +272,14 @@ const Payment = () => {
           isOpen={isTransferMoneyModalOpen}
           onRequestClose={closeModal}
           contentLabel="Transfer Money Modal"
+          style={customStyles}
         >
-          <div>
-            <h2>Transfer Money</h2>
-            <form onSubmit={handleTransferMoney} id="form">
-              <label htmlFor="account"> Enter Account No. :</label>
+          <div className="profile-wrapper">
+            <h2 className="payment-h2">Transfer Money</h2>
+            <form className="profile-form" onSubmit={handleTransferMoney} id="form">
+              <label className="payment-label" htmlFor="account"> Enter Account No. :</label>
               <input
+               className="modal-input"
                 type="number"
                 name="account"
                 value={data.account}
@@ -270,8 +288,9 @@ const Payment = () => {
                 placeholder="Account No."
               />
               <br></br>
-              <label htmlFor="amount">Enter Amount:</label>
+              <label className="payment-label"  htmlFor="amount">Enter Amount:</label>
               <input
+               className="modal-input"
                 type="number"
                 step="0.01"
                 name="amount"
@@ -283,9 +302,10 @@ const Payment = () => {
                 placeholder="Amount"
               />
               <br></br>
-              <label htmlFor="pin">Enter PIN:</label>
+              <label className="payment-label"  htmlFor="pin">Enter PIN:</label>
               <br></br>
               <input
+               className="modal-input"
                 type="password"
                 name="pin"
                 value={data.pin}
@@ -293,32 +313,10 @@ const Payment = () => {
                 required
                 placeholder="PIN"
               />
-              <button type="submit">Transfer Money</button>
+              <button className="usernameButton" type="submit">Transfer Money</button>
             </form>
           </div>
         </Modal>
-        <Modal
-  isOpen={isTransactionHistoryModalOpen}
-  onRequestClose={closeModal}
-  contentLabel="Transaction History Modal"
->
-  <div>
-    <h2>Transaction History</h2>
-    <div className="transaction-cards">
-      {transactions.map((transaction, index) => (
-        <div key={index} className="transaction-card">
-          <h3>Reference Number: {transaction.referenceNumber}</h3>
-          <p>Type: {transaction.type}</p>
-          <p>Account Number: {transaction.accountNumber}</p>
-          <p>Amount: {transaction.amount}</p>
-          <p>Date: {transaction.date}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-</Modal>
-
-
         {/* Other buttons */}
         <div>
           <button className="payment-option" onClick={openAddMoneyModal}>

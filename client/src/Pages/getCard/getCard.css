@@ -8,12 +8,9 @@
 
   
   .wrapper {
-    height: 50vh;
+    height: 66vh;
     display: grid;
     place-items: center;
-  /*   background: linear-gradient(#e66465, #9198e5); */
-    /* background-image: url('https://i.pin.getCard-images
-.com/originals/fa/c0/5c/fac05c110c458e9bab3a3248bfb3c376.jpg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172)); */
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

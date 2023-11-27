@@ -44,25 +44,25 @@ export default function Reset() {
   if(status && status !== 201) return <Navigate to={'/password'} replace={true}></Navigate>
 
   return (
-    <div className="container mx-auto">
-
+    <div className="recovery-container">
+      <div className="gradient2"></div>
       <Toaster position='top-center' reverseOrder={false}></Toaster>
 
-      <div className='flex justify-center items-center h-screen'>
-        <div className={styles.glass} style={{ width : "50%"}}>
+      <div className='username-wrapper flex justify-center items-center h-screen'>
+        <div className="profile-content" >
 
-          <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'>Reset</h4>
-            <span className='py-4 text-xl w-2/3 text-center text-gray-500'>
+          <div >
+            <h4 style={{fontSize:"30px",marginBottom:"10px"}}>Reset</h4>
+            <span >
               Enter new password.
             </span>
           </div>
 
-          <form className='py-20' onSubmit={formik.handleSubmit}>
+          <form className="profile-form" onSubmit={formik.handleSubmit}>
               <div className="textbox flex flex-col items-center gap-6">
-                  <input {...formik.getFieldProps('password')} className={styles.textbox} type="text" placeholder='New Password' />
-                  <input {...formik.getFieldProps('confirm_pwd')} className={styles.textbox} type="text" placeholder='Repeat Password' />
-                  <button className={styles.btn} type='submit'>Reset</button>
+                  <input {...formik.getFieldProps('password')} className="profileInput" type="text" placeholder='New Password' />
+                  <input {...formik.getFieldProps('confirm_pwd')} className="profileInput" type="text" placeholder='Repeat Password' />
+                  <button className="usernameButton" type='submit'>Reset</button>
               </div>
 
           </form>

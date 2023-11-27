@@ -73,7 +73,7 @@ const CreditCard = () => {
 
   return (
     <div className="wrapper">
-        <div className="gradient"></div>
+              <div className="gradient2"></div>
       <div className="card">
         {" "}
         <div className="card-details">

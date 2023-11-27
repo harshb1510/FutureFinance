@@ -12,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .contact-box {
@@ -47,7 +48,7 @@
 }
 
 .contact-form-wrapper {
-  background-color: #ffffff8f;
+  background-color: #ffffffd4;
   border-radius: 0 10px 10px 0;
 }
 
@@ -117,6 +118,7 @@
 
 .form-item {
   position: relative;
+  margin-bottom: 10px;
 }
 
 .labels, .inputs, .textarea {

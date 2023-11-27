@@ -97,21 +97,9 @@ export async function transferMoney(req, res) {
         const currentBalance2 = user2.balance || 0;
         user2.balance = currentBalance2 - amountToAdd;
 
-        user1.transactions = user1.transactions || [];
-        user2.transactions = user2.transactions || [];
 
-        user1.transactions.push({
-            amount: amountToAdd,
-            type: 'credited', 
-            timestamp: new Date(),
-            
-        });
 
-        user2.transactions.push({
-            amount: amountToAdd,
-            type: 'transfer', 
-            timestamp: new Date(),
-        });
+
 
         await Promise.all([user1.save(), user2.save()]);
         console.log(user1);

@@ -9,3 +9,7 @@
 .textbox{
     @apply w-3/4;
 }
+
+.textbox1{
+    @apply w-40
+}

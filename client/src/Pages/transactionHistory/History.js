@@ -23,27 +23,22 @@ const History = () => {
   }, [username]);
 
   return (
-    <div className="history-container">
-      <h2>Transaction History</h2>
-      <div className="history-cards">
-      {transactions
-        ?.slice()
-        .reverse() 
-        .map((transaction) => (
-          <div key={transaction._id} className="history-card">
-            <div className="card-header">
-              <span className="type">{transaction.type}</span>
-              <span className="amount">Rs. {transaction.amount}</span>
-            </div>
-            <div className="card-footer">
-              <span className="date">
-                {new Date(transaction.timestamp).toLocaleString()}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+    <h2>Transaction History</h2>
+    <div className="transaction-cards">
+    {transactions
+        ?.slice() // Create a shallow copy of the array
+        .reverse().map((transaction, index) => (
+        <div key={index} className="transaction-card">
+          <h3>Reference Number: {transaction.referenceNumber}</h3>
+          <p>Type: {transaction.type}</p>
+          <p>Account Number: {transaction.accountNumber}</p>
+          <p>Amount: {transaction.amount}</p>
+          <p>Date: {transaction.timestamp}</p>
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

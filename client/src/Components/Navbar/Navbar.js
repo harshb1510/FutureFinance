@@ -73,12 +73,9 @@ import "./Navbar.css";
           </div>}
           {user&&
           <div className="nav-right">
+            <div className="nav-right-profileSection">
               <Link to="/profile">
-            <div>
-              <img src={profile||avatar} alt="" className="profileImg" />
-            </div>
-              </Link>
-            <div>
+              <img src={profile||avatar} alt="" className="profileImg" /></Link>
             <button className="signup-button" onClick={userLogout}>Logout</button>
             </div>
           </div>

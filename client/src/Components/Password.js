@@ -8,7 +8,7 @@ import { passwordValidate } from "../helper/validate";
 import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../store/store";
 import { verifyPassword } from "../helper/helper";
-import styles from "../styles/Username.module.css";
+
 import { set } from "mongoose";
 
 export default function Password() {
@@ -67,46 +67,47 @@ export default function Password() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="password-container mx-auto">
+      <div className="gradient2"></div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-      <div className="flex justify-center items-center h-screen">
-        <div className={styles.glass}>
-          <div className="title flex flex-col items-center">
-            <h4 className="text-5xl font-bold">
+      <div className="username-wrapper profile-content flex justify-center items-center h-screen">
+        <div className="">
+          <div >
+            <h4 style={{fontSize:"30px",marginBottom:"10px"}}>
               Hello {apiData?.firstName || apiData?.username}
             </h4>
-            <span className="py-4 text-xl w-2/3 text-center text-gray-500">
+            <span >
               Explore More by connecting with us.
             </span>
           </div>
 
           <form className="py-1" onSubmit={formik.handleSubmit}>
-            <div className="profile flex justify-center py-4">
+            <div className="profile-image flex justify-center py-4">
               <img
                 src={apiData?.profile || avatar}
-                className={styles.profile_img}
+                className="profile-avatar"
                 alt="avatar"
               />
             </div>
 
-            <div className="textbox flex flex-col items-center gap-6">
+            <div className=" textbox ">
               <input
                 {...formik.getFieldProps("password")}
-                className={styles.textbox}
+                className="profileInput"
                 type="password"
                 placeholder="Password"
               />
-              <button className={styles.btn} type="submit">
+              <button className="usernameButton" type="submit">
                 Sign In
               </button>
             </div>
 
-            <div className="text-center py-4">
+            <div className="">
               <span className="text-gray-500">
                 Forgot Password?{" "}
                 <Link
-                  className="text-red-500"
+                  className="profileLink"
                   to="/recovery"
                   onClick={handleRecover}
                 >

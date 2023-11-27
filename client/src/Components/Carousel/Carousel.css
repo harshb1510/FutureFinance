@@ -31,15 +31,16 @@
     z-index: 999;
 }
 
-.carousel-left{
+.carousel-left {
     display: grid;
     color: white;
     z-index: 1;
-    margin-right: 150px;
+    width: 700px;
+    height: 390px;
 }
 
 .carousel-text{
-    font-size: 50px;
+    font-size: 60px;
 }
 
 .carousel-button {
@@ -74,8 +75,8 @@
     gap: 15px;
 }
 .banner-img{
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%;
     object-fit: cover;
     z-index: 1;
@@ -84,25 +85,26 @@
 .paymentImg{
     background-color: rgb(62, 226, 62);
     border-radius: 100%;
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
     object-fit: cover;
 }
 
 
-.carosel-right{
+.carousel-right{
     z-index: -1;
 }
 
 .halfCircle {
-    width: 100%;
+    width: 99%;
     height: 300px;
     background-color: rgb(18, 17, 17);
     border-radius: 62% 62% 0px 0px;
     text-align: center;
     color: white;
     padding-top: 30px;
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-left: 8px;
 }
 
 .carouselCircles{
@@ -143,10 +145,7 @@
     font-weight: bolder;
 }
 
-.carousel-item{
-    width: 1500px;
-    
-}
+
 .Carousel-images{
     object-fit: contain;
     height: 50px;
