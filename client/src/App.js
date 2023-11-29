@@ -17,6 +17,7 @@ import Payment from "./Pages/Payment/Payment";
 import Card from "./Pages/getCard/getCard";
 import Terms from "./Pages/Terms/Terms";
 import History from './Pages/transactionHistory/History';
+// import Fingerprint from "./Pages/Fingerprint/fingerprint";
 
 
 function App() {
@@ -70,10 +71,13 @@ function App() {
         {
           path: "/profile",
           element: <AuthorizeUser><Profile /></AuthorizeUser>
-          
-          // <Profile />,
         },
+        // {
+        //   path: "/fingerprint",
+        //   element: <Fingerprint/>
+        // },
         {
+
           path: "/password",
           element: <ProtectRoute> <Password /> </ProtectRoute>
           

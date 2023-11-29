@@ -38,7 +38,6 @@ export default function Register() {
         })
         .catch((error) => {
           console.error(error);
-          // Handle the error as needed, e.g., show a specific toast or message
           toast.error("Registration failed");
         });
     },
@@ -49,12 +48,14 @@ export default function Register() {
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
   };
+  
+  
+
 
   return (
     <div className="register-container">
       <div className="gradient2"></div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-
       <div className="register-wrapper flex justify-center items-center ">
         <div className="profile-content">
           <div>

@@ -16,6 +16,7 @@ router.route('/login').post(controller.verifyUser,controller.login); // login in
 router.route('/user/:username/pinMatch').post(controller.pinMatch);
 router.route('/user/:username/addMoney').post(controller.addMoney);
 router.route('/user/:username/transferMoney').post(controller.transferMoney);
+router.route("/fingerprint").post(controller.registerFingerprint);
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser) // user with username

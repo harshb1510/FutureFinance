@@ -1,11 +1,11 @@
-.gradient {
+.gradientCarousel {
     background-color: purple;
-    width: 1200px;
-    height: 200px;
+    width: 900px;
+    height: 400px;
     z-index: -1;
     border-radius: 100%;
-    filter: blur(100px);
-    margin-bottom: 250px;
+    filter: blur(180px);
+    margin-bottom: 150px;
     position: fixed;
     margin-right: 1000px;
 }

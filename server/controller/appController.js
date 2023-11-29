@@ -3,6 +3,42 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js'
 import otpGenerator from 'otp-generator';
+import { Fido2Lib } from 'fido2-lib';
+
+
+
+const fido2 = new Fido2Lib();
+
+export async function registerFingerprint(req,res){
+    try {
+        console.log(req.body);
+        // Extract the PublicKeyCredential from the request body
+        const credential = req.body;
+        
+        // Parse and validate the registration data using fido2-lib
+        // const registration = await fido2.attestationResult(credential);
+        // console.log(registration);
+
+
+        // Store the user's public key and credential ID for future logins
+        // Use your database or storage mechanism for this purpose
+
+        // const { credentialPublicKey, credentialID } = registration.authnrData;
+        // console.log(credentialPublicKey,credentialID);
+        console.log("Doneeeee");
+        // Respond to the client with a success message
+        res.json({ success: true, message: 'Fingerprint registered successfully' });
+      } catch (error) {
+        console.error('Registration error:', error);
+  console.error('Error details:', error.stack); // Log the entire error object
+  res.status(500).json({ success: false, message: 'Registration failed' });
+      }
+}
+
+
+
+
+
 
 /** middleware for verify user */
 export async function verifyUser(req, res, next) {

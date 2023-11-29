@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 Modal.setAppElement("#root"); // replace '#root' with the ID of your root element
 
 const Payment = () => {
-  const customStyles = {
+  const checkMoneyStyles = {
     content: {
       top: '50%',
       left: '50%',
@@ -19,7 +19,38 @@ const Payment = () => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       background:"#dcd9d9",
-      borderRadius: "10px"
+      borderRadius: "10px",
+      height:"300px"
+
+    },
+  };
+
+  const addMoneyStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background:"#dcd9d9",
+      borderRadius: "10px",
+      height:"350px"
+
+    },
+  };
+  const transferStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background:"#dcd9d9",
+      borderRadius: "10px",
+      height:"480px"
+
     },
   };
 
@@ -197,7 +228,7 @@ const Payment = () => {
           isOpen={isModalOpen}
           onRequestClose={closeModal}
           contentLabel="Check Balance Modal"
-          style={customStyles}
+          style={checkMoneyStyles}
         >
           <div className="profile-wrapper">
             <h2 className="payment-h2">Check Balance</h2>
@@ -225,7 +256,7 @@ const Payment = () => {
           isOpen={isAddMoneyModalOpen}
           onRequestClose={closeModal}
           contentLabel="Add Money Modal"
-          style={customStyles}
+          style={addMoneyStyles}
         >
           <div className="profile-wrapper">
             <h2 className="payment-h2">Add Money</h2>
@@ -272,7 +303,7 @@ const Payment = () => {
           isOpen={isTransferMoneyModalOpen}
           onRequestClose={closeModal}
           contentLabel="Transfer Money Modal"
-          style={customStyles}
+          style={transferStyles}
         >
           <div className="profile-wrapper">
             <h2 className="payment-h2">Transfer Money</h2>
@@ -346,6 +377,7 @@ const Payment = () => {
             style: {
               background: "#363636",
               color: "#fff",
+              
             },
 
             // Default options for specific types

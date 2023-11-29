@@ -8,7 +8,7 @@ const Carousel = () => {
   return (
     <section>
       <div className="carousel-container">
-        <div className="gradient">
+        <div className="gradientCarousel">
               </div>
                 
         <div className="carousel-left">
