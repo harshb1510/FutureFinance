@@ -4,10 +4,8 @@ import morgan from 'morgan';
 import connect from './database/conn.js';
 import router from './router/route.js';
 import bodyParser from 'body-parser';
-import { configDotenv } from 'dotenv';
 
 
-configDotenv();
 const app = express();
 const corsOptions = {
     origin: 'http://localhost:3000',  // Replace with your frontend's URL
