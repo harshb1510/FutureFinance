@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
 import { resetPasswordValidation } from '../helper/validate'
@@ -6,14 +6,14 @@ import { resetPassword } from '../helper/helper'
 import { useAuthStore } from '../store/store';
 import { useNavigate, Navigate } from 'react-router-dom';
 import useFetch from '../hooks/fetch.hook'
+import ENV from '../cofig.js';
 
-import styles from '../styles/Username.module.css';
 
 export default function Reset() {
 
   const { username } = useAuthStore(state => state.auth);
   const navigate = useNavigate();
-  const [{ isLoading, apiData, status, serverError }] = useFetch(`http://localhost:8080/api/user/${username}`)
+  const [{ isLoading, status, serverError }] = useFetch(`${ENV.HOST}/user/${username}`)
 
   const formik = useFormik({
     initialValues : {

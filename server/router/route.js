@@ -16,14 +16,15 @@ router.route('/login').post(controller.verifyUser,controller.login); // login in
 router.route('/user/:username/pinMatch').post(controller.pinMatch);
 router.route('/user/:username/addMoney').post(controller.addMoney);
 router.route('/user/:username/transferMoney').post(controller.transferMoney);
-router.route("/fingerprint").post(controller.registerFingerprint);
+router.route('/user/:username/paymentVerify').post(controller.paymentVerify);
+router.route('/user/:username/updateBalance').post(controller.updateBalance);
 
 /** GET Methods */
 router.route('/user/:username').get(controller.getUser) // user with username
 router.route('/generateOTP').get(controller.verifyUser, localVariables, controller.generateOTP) // generate random OTP
 router.route('/verifyOTP').get(controller.verifyUser, controller.verifyOTP) // verify generated OTP
 router.route('/createResetSession').get(controller.createResetSession) // reset all the variables
-router.route('/user/:username/transactionHistory').get(controller.transactionHistory) // transaction history of user
+router.route('/user/:username/transactionHistory').get(controller.transactionHistory); // transaction history of user
 
 
 /** PUT Methods */

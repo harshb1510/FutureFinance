@@ -6,6 +6,7 @@ import "./Navbar.css";
   import avatar from '../../assets/profile.png';
   import { useNavigate } from "react-router-dom";
   import { useEffect, useState } from "react";
+  import ENV from '../../cofig.js'
 
   export default function Navbar() {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ import "./Navbar.css";
     useEffect(() => {
       const fetchUser = () => {
         if(username){
-      fetch(`http://localhost:8080/api/user/${username}`)
+      fetch(`${ENV.HOST}/user/${username}`)
       .then(res => res.json())
       .then(data => {
         // console.log(data)

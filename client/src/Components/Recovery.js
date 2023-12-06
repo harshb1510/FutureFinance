@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuthStore } from  '../store/store'
 import { generateOTP, verifyOTP } from '../helper/helper';

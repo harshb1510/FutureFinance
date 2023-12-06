@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./getCard.css";
 import jwtDecode from "jwt-decode";
+import ENV from '../../cofig.js'
 
 
 
@@ -20,7 +21,7 @@ const CreditCard = () => {
   useEffect(() => {
     const fetchUser = () => {
       if(username){
-    fetch(`http://localhost:8080/api/user/${username}`)
+    fetch(`${ENV.HOST}/user/${username}`)
     .then(res => res.json())
     .then(data => {
       // console.log(data)
@@ -69,7 +70,7 @@ const CreditCard = () => {
     return () => {
       mouseOverContainer.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []); // Empty dependency array to run the effect only once
+  }, ); // Empty dependency array to run the effect only once
 
   return (
     <div className="wrapper">

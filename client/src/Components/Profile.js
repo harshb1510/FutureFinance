@@ -10,6 +10,7 @@ import useFetch from '../hooks/fetch.hook';
 import { updateUser } from '../helper/helper';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import ENV from '../cofig.js'
 
 import './Profile.css'; // Import the CSS file
 
@@ -19,7 +20,7 @@ export default function Profile() {
   const decodedUser = user ? jwtDecode(user) : null;
   const username = decodedUser.username;
 
-  const [{ isLoading, apiData, serverError }] = useFetch(`http://localhost:8080/api/user/${username}`);
+  const [{ isLoading, apiData, serverError }] = useFetch(`${ENV.HOST}/user/${username}`);
   const navigate = useNavigate();
 
   const formik = useFormik({

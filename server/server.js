@@ -4,13 +4,22 @@ import morgan from 'morgan';
 import connect from './database/conn.js';
 import router from './router/route.js';
 import bodyParser from 'body-parser';
+import { configDotenv } from 'dotenv';
 
+
+configDotenv();
 const app = express();
-
+const corsOptions = {
+    origin: 'http://localhost:3000',  // Replace with your frontend's URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
 /** middlewares */
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000", "https://checkout.stripe.com"],
+  }));
 app.use(morgan('tiny'));
 app.disable('x-powered-by'); // less hackers know about our stack
 

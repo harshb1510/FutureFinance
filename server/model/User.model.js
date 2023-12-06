@@ -6,6 +6,10 @@ const TransactionSchema = new mongoose.Schema({
     accountNumber: String,
     amount: Number,
     date: String,
+    paymentIntent: {
+      type: String, // You might adjust the type based on the data structure provided by the payment gateway
+      default: null, // Set a default value if needed
+    },
   });
 
   

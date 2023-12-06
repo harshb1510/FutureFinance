@@ -5,11 +5,27 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import ENV from '../../cofig.js'
 
 // Set the app element for react-modal
 Modal.setAppElement("#root"); // replace '#root' with the ID of your root element
 
 const Payment = () => {
+  
+
+  useEffect(() => {
+    const loadRazorpayScript = async () => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => {
+      };
+      document.body.appendChild(script);
+    };
+
+    loadRazorpayScript();
+  }, []);
+
   const checkMoneyStyles = {
     content: {
       top: '50%',
@@ -62,8 +78,6 @@ const Payment = () => {
   const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false);
   const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] =
     useState(false);
-  const [isTransactionHistoryModalOpen, setIsTransactionHistoryModalOpen] =
-    useState(false);
 
   const openModal = () => {
     if (user) {
@@ -114,13 +128,13 @@ const Payment = () => {
     addMoney: "",
     transferMoney: "",
   });
-  const [transactions, setTransactions] = useState([]); 
+  const [ transactions,setTransactions] = useState([]); 
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/user/${username}`
+          `${ENV.HOST}/user/${username}`
         );
         setTransactions(response.data.transactions);
       } catch (error) {
@@ -141,10 +155,10 @@ const Payment = () => {
     e.preventDefault();
     try {
       const postPin = await axios.post(
-        `http://localhost:8080/api/user/${username}/pinMatch`,
+        `${ENV.HOST}/user/${username}/pinMatch`,
         data
       );
-      console.log(postPin);
+      
       toast.success("Balance :" + postPin.data.balance);
       closeModal();
       setData({ ...data, pin: "" });
@@ -153,29 +167,79 @@ const Payment = () => {
     }
   };
 
+
+  const initPayment = (addMoneyResponse) => {
+    
+    const options = {
+      key: ENV.RAZORPAY_PUBLIC_ID ,
+      amount: addMoneyResponse.data.data.amount,
+      currency: addMoneyResponse.data.data.currency,
+      order_id: addMoneyResponse.data.data.id,
+      handler: async (response) => {
+        
+        try {
+          // Send the necessary information for payment verification
+          const verifyUrl = `${ENV.HOST}/user/${username}/paymentVerify`;
+          const verifyData = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          };
+           await axios.post(verifyUrl, verifyData);
+  
+          // Assuming the verification is successful, proceed with updating the balance
+          const updateBalanceUrl = `${ENV.HOST}/user/${username}/updateBalance`;
+          const updateBalanceData = {
+            amount: addMoneyResponse.data.data.amount/100, // Adjust as needed
+          };
+         await axios.post(
+            updateBalanceUrl,
+            updateBalanceData
+          );
+  
+          // Handle the response or perform additional actions if needed
+          
+          toast.success(`Rs.${addMoneyResponse.data.data.amount/100} has been credited in your account`);
+          closeModal();
+          setData({ ...data, pin: "" });
+          setMoney({ ...money, addMoney: "" });
+  
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+  
+
   const handleAddMoneySubmit = async (e) => {
     e.preventDefault();
     try {
-      const postPin = await axios.post(
-        `http://localhost:8080/api/user/${username}/pinMatch`,
+      await axios.post(
+        `${ENV.HOST}/user/${username}/pinMatch`,
         { pin: data.pin }
       );
 
       // Assuming postPin.data.balance is the current balance after PIN verification
-
+      
       // Now, make a request to add money
       const addMoneyResponse = await axios.post(
-        `http://localhost:8080/api/user/${username}/addMoney`,
+        `${ENV.HOST}/user/${username}/addMoney`,
         {
           addMoney: parseFloat(money.addMoney),
         }
       );
-      // Assuming addMoneyResponse.data.balance is the updated balance after adding money
-      toast.success(money.addMoney + "  " + " is credited into your account");
-      closeModal();
-      setMoney({ ...money, addMoney: "" });
-      setData({ ...data, pin: "" });
-      // window.location.reload();
+      console.log(addMoneyResponse);
+
+     initPayment(addMoneyResponse);
+     
+    
+      
     } catch (error) {
       console.error(error);
     }
@@ -184,14 +248,14 @@ const Payment = () => {
   const handleTransferMoney = async (e) => {
     e.preventDefault();
     try {
-      const postPin = await axios.post(
-        `http://localhost:8080/api/user/${username}/pinMatch`,
+   await axios.post(
+        `${ENV.HOST}/user/${username}/pinMatch`,
         { pin: data.pin }
       );
 
       // Now, make a request to transfer money
-      const transferMoneyResponse = await axios.post(
-        `http://localhost:8080/api/user/${username}/transferMoney`,
+     await axios.post(
+        `${ENV.HOST}/user/${username}/transferMoney`,
         {
           account: data.account,
           amount: parseFloat(money.transferMoney),

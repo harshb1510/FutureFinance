@@ -1,6 +1,8 @@
 import emailjs from "@emailjs/browser";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import ENV from "../cofig.js"
+
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 
@@ -17,7 +19,7 @@ export async function getUsername() {
 /** authenticate function */
 export async function authenticate(username) {
   try {
-    return await axios.post("http://localhost:8080/api/authenticate", {
+    return await axios.post(`${ENV.HOST}/authenticate`, {
       username,
     });
   } catch (error) {
@@ -29,9 +31,9 @@ export async function authenticate(username) {
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(
-      `http://localhost:8080/api/user/${username}`
+      `${ENV.HOST}/user/${username}`
     );
-    console.log("help");
+    
     return { data };
   } catch (error) {
     return { error: "Password doesn't Match...!" };
@@ -42,15 +44,15 @@ export async function getUser({ username }) {
 export async function registerUser(credentials) {
   try {
     let { username, email } = credentials;
-    console.log(`registering ${email}`);
+    
     const {
       data: { msg },
       status,
-    } = await axios.post("http://localhost:8080/api/register", credentials);
+    } = await axios.post(`${ENV.HOST}/register`, credentials);
 
     /** send email */
     if (status === 201) {
-      await axios.post("http://localhost:8080/api/registerMail", {
+      await axios.post(`${ENV.HOST}/registerMail`, {
         username,
         userEmail: email,
         text: msg,
@@ -67,7 +69,7 @@ export async function registerUser(credentials) {
 export async function verifyPassword({ username, password }) {
   try {
     if (username) {
-      const { data } = await axios.post("http://localhost:8080/api/login", {
+      const { data } = await axios.post(`${ENV.HOST}/login`, {
         username,
         password,
       });
@@ -82,14 +84,14 @@ export async function verifyPassword({ username, password }) {
 export async function updateUser(response) {
   try {
     const token = await localStorage.getItem("token");
-    console.log(token);
-    console.log(response);
+    
+    
     const data = await axios.put(
-      "http://localhost:8080/api/updateuser",
+      `${ENV.HOST}/updateuser`,
       response,
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log("yayy");
+    
 
     return Promise.resolve({ data });
   } catch (error) {
@@ -103,7 +105,7 @@ export async function generateOTP(username) {
     const {
       data: { code },
       status,
-    } = await axios.get("http://localhost:8080/api/generateOTP", {
+    } = await axios.get(`${ENV.HOST}/generateOTP`, {
       params: { username },
     });
 
@@ -114,7 +116,7 @@ export async function generateOTP(username) {
       } = await getUser({ username });
       let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
 
-      //   await axios.post("http://localhost:8080/api/registerMail", {
+      //   await axios.post("${ENV.HOST}/registerMail", {
       //     username,
       //     userEmail: email,
       //     text,
@@ -153,7 +155,7 @@ export async function generateOTP(username) {
 export async function verifyOTP({ username, code }) {
   try {
     const { data, status } = await axios.get(
-      "http://localhost:8080/api/verifyOTP",
+      `${ENV.HOST}/verifyOTP`,
       { params: { username, code } }
     );
     return { data, status };
@@ -166,7 +168,7 @@ export async function verifyOTP({ username, code }) {
 export async function resetPassword({ username, password }) {
   try {
     const { data, status } = await axios.put(
-      "http://localhost:8080/api/resetPassword",
+      `${ENV.HOST}/resetPassword`,
       { username, password }
     );
     return Promise.resolve({ data, status });

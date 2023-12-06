@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import './history.css'; // Import the CSS file
+import ENV from '../../cofig.js'
 
 const History = () => {
   const user = localStorage.getItem('token');
@@ -13,7 +14,7 @@ const History = () => {
   useEffect(() => {
     // Fetch transaction history data from your backend
     axios
-      .get(`http://localhost:8080/api/user/${username}/transactionHistory`)
+      .get(`${ENV.HOST}/user/${username}/transactionHistory`)
       .then((response) => {
         setTransactions(response.data.transactions);
       })
@@ -34,7 +35,7 @@ const History = () => {
           <p>Type: {transaction.type}</p>
           <p>Account Number: {transaction.accountNumber}</p>
           <p>Amount: {transaction.amount}</p>
-          <p>Date: {transaction.timestamp}</p>
+          <p>Date: {transaction.date}</p>
         </div>
       ))}
     </div>

@@ -3,40 +3,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import ENV from '../config.js'
 import otpGenerator from 'otp-generator';
-import { Fido2Lib } from 'fido2-lib';
-
-
-
-const fido2 = new Fido2Lib();
-
-export async function registerFingerprint(req,res){
-    try {
-        console.log(req.body);
-        // Extract the PublicKeyCredential from the request body
-        const credential = req.body;
-        
-        // Parse and validate the registration data using fido2-lib
-        // const registration = await fido2.attestationResult(credential);
-        // console.log(registration);
-
-
-        // Store the user's public key and credential ID for future logins
-        // Use your database or storage mechanism for this purpose
-
-        // const { credentialPublicKey, credentialID } = registration.authnrData;
-        // console.log(credentialPublicKey,credentialID);
-        console.log("Doneeeee");
-        // Respond to the client with a success message
-        res.json({ success: true, message: 'Fingerprint registered successfully' });
-      } catch (error) {
-        console.error('Registration error:', error);
-  console.error('Error details:', error.stack); // Log the entire error object
-  res.status(500).json({ success: false, message: 'Registration failed' });
-      }
-}
-
-
-
+import Razorpay from 'razorpay'
+import crypto from "crypto";
 
 
 
@@ -55,16 +23,34 @@ export async function verifyUser(req, res, next) {
     }
 }
 
-export async function addMoney(req, res) {
+export async function paymentVerify(req,res){
     try {
-      const { username } = req.params;
-      const user = await UserModel.findOne({ username });
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      const currentBalance = user.balance || 0;
-      const amountToAdd = parseFloat(req.body.addMoney);
+        
+        const {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body;
+        const sign = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSign = crypto.createHmac("sha256", ENV.RAZORPAY_SECRET_ID).update(sign.toString()).digest("hex");
+        if(razorpay_signature===expectedSign){
+           return res.status(200).json({message:"Payment verified Successfull"});
+        }else{
+        return res.status(400).json({message:"Payment verification failed"});
+    }
+        
+    } catch (error) {
+        
+    }
+}
+
+export async function updateBalance(req,res){
+    try {
+        const { username } = req.params;
+        
+        const  {amount}  = req.body;
+        const user=await UserModel.findOne({username});
+        if(!user){
+            return res.status(404).json({error:"User not found"});
+        }
+       const currentBalance = user.balance || 0;
+      const amountToAdd = parseFloat(req.body.amount);
   
       // Update user's balance
       user.balance = currentBalance + amountToAdd;
@@ -82,7 +68,42 @@ export async function addMoney(req, res) {
       user.transactions.push(newTransaction);
   
       await user.save();
-      res.json({ balance: user.balance });
+      res.json({ balance: user.balance});}
+      catch(err){
+        console.error(err);
+        res.status(500).json({error:"Internal Server Error"});
+      }
+}
+
+export async function addMoney(req, res) {
+    try {
+      
+      const {username}=req.params;
+      const user=await UserModel.findOne({username});
+      if(!user){
+          return res.status(404).json({error:"User not found"});
+        }
+        
+        const razorpay = new Razorpay({
+            key_id:ENV.RAZORPAY_PUBLIC_ID,
+            key_secret:ENV.RAZORPAY_SECRET_ID
+        });
+        
+        
+        const order = {
+            amount:req.body.addMoney*100,
+            currency:"INR",
+            receipt:crypto.randomBytes(10).toString('hex'),
+        };
+       
+        razorpay.orders.create(order, (error, order) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).send({ message: "Something went wrong" });
+            }
+            return res.status(200).json({data:order});
+        });
+   
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -133,12 +154,9 @@ export async function transferMoney(req, res) {
         const currentBalance2 = user2.balance || 0;
         user2.balance = currentBalance2 - amountToAdd;
 
-
-
-
-
+        
         await Promise.all([user1.save(), user2.save()]);
-        console.log(user1);
+        
         res.json({ 
             senderBalance: user1.balance,
             receiverBalance: user2.balance
@@ -231,13 +249,13 @@ export async function register(req, res) {
                     accountNumber: accountNumber1
                 });
 
-                console.log(user);
+                
 
                 // Save the user and handle the result
                 try {
                     const result = await user.save();
                     res.status(201).send({ msg: "User registered successfully" });
-                    console.log("login")
+                    
                 } catch (error) {
                     console.error(error);
                     res.status(500).send({ error });
@@ -298,7 +316,7 @@ export async function login(req, res) {
 export async function getUser(req, res) {
     try {
         const { username } = req.params;
-        console.log("hii")
+        
         if (!username) return res.status(501).send({ error: "Invalid Username" });
 
         const user = await UserModel.findOne({ username });
@@ -336,7 +354,7 @@ export async function updateUser(req, res) {
             // Update the data using async/await
             const updateResult = await UserModel.updateOne({ _id: userId }, body);
 
-            console.log(updateResult);
+            
             if (updateResult.modifiedCount > 0) {
                 return res.status(201).send({ msg: "Record Updated...!" });
             } else {

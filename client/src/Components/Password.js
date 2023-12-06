@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/profile.png";
 import toast, { Toaster } from "react-hot-toast";
@@ -8,14 +8,15 @@ import { passwordValidate } from "../helper/validate";
 import useFetch from "../hooks/fetch.hook";
 import { useAuthStore } from "../store/store";
 import { verifyPassword } from "../helper/helper";
+import ENV from '../cofig.js'
 
-import { set } from "mongoose";
+
 
 export default function Password() {
   const navigate = useNavigate();
   const { username } = useAuthStore((state) => state.auth);
   const [{ isLoading, apiData, serverError }] = useFetch(
-    `http://localhost:8080/api/user/${username}`
+    `${ENV.HOST}/user/${username}`
   );
   const formik = useFormik({
     initialValues: {
