@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import ENV from '../config.js'
+
 
 /** auth middleware */
 export default async function Auth(req, res, next){
@@ -8,7 +8,7 @@ export default async function Auth(req, res, next){
         // access authorize header to validate request
         const token = req.headers.authorization.split(" ")[1];
         // retrieve the user details for the logged in user
-        const decodedToken = await jwt.verify(token, ENV.JWT_SECRET);
+        const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
  
         req.user = decodedToken;
 
