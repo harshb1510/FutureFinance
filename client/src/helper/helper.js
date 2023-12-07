@@ -19,7 +19,7 @@ export async function getUsername() {
 /** authenticate function */
 export async function authenticate(username) {
   try {
-    return await axios.post(`${ENV.HOST}/authenticate`, {
+    return await axios.post(`https://futurefinance.onrender.com/api/authenticate`, {
       username,
     });
   } catch (error) {
@@ -31,7 +31,7 @@ export async function authenticate(username) {
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(
-      `${ENV.HOST}/user/${username}`
+      `https://futurefinance.onrender.com/api/user/${username}`
     );
     
     return { data };
@@ -48,11 +48,11 @@ export async function registerUser(credentials) {
     const {
       data: { msg },
       status,
-    } = await axios.post(`${ENV.HOST}/register`, credentials);
+    } = await axios.post(`https://futurefinance.onrender.com/api/register`, credentials);
 
     /** send email */
     if (status === 201) {
-      await axios.post(`${ENV.HOST}/registerMail`, {
+      await axios.post(`https://futurefinance.onrender.com/api/registerMail`, {
         username,
         userEmail: email,
         text: msg,
@@ -69,7 +69,7 @@ export async function registerUser(credentials) {
 export async function verifyPassword({ username, password }) {
   try {
     if (username) {
-      const { data } = await axios.post(`${ENV.HOST}/login`, {
+      const { data } = await axios.post(`https://futurefinance.onrender.com/api/login`, {
         username,
         password,
       });
@@ -87,7 +87,7 @@ export async function updateUser(response) {
     
     
     const data = await axios.put(
-      `${ENV.HOST}/updateuser`,
+      `https://futurefinance.onrender.com/api/updateuser`,
       response,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -105,7 +105,7 @@ export async function generateOTP(username) {
     const {
       data: { code },
       status,
-    } = await axios.get(`${ENV.HOST}/generateOTP`, {
+    } = await axios.get(`https://futurefinance.onrender.com/api/generateOTP`, {
       params: { username },
     });
 
@@ -116,7 +116,7 @@ export async function generateOTP(username) {
       } = await getUser({ username });
       let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
 
-      //   await axios.post("${ENV.HOST}/registerMail", {
+      //   await axios.post("https://futurefinance.onrender.com/api/registerMail", {
       //     username,
       //     userEmail: email,
       //     text,
@@ -155,7 +155,7 @@ export async function generateOTP(username) {
 export async function verifyOTP({ username, code }) {
   try {
     const { data, status } = await axios.get(
-      `${ENV.HOST}/verifyOTP`,
+      `https://futurefinance.onrender.com/api/verifyOTP`,
       { params: { username, code } }
     );
     return { data, status };
@@ -168,7 +168,7 @@ export async function verifyOTP({ username, code }) {
 export async function resetPassword({ username, password }) {
   try {
     const { data, status } = await axios.put(
-      `${ENV.HOST}/resetPassword`,
+      `https://futurefinance.onrender.com/api/resetPassword`,
       { username, password }
     );
     return Promise.resolve({ data, status });
