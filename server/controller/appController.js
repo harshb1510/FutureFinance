@@ -28,7 +28,7 @@ export async function paymentVerify(req,res){
         
         const {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body;
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
-        const expectedSign = crypto.createHmac("sha256", ENV.RAZORPAY_SECRET_ID).update(sign.toString()).digest("hex");
+        const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_ID).update(sign.toString()).digest("hex");
         if(razorpay_signature===expectedSign){
            return res.status(200).json({message:"Payment verified Successfull"});
         }else{
@@ -85,8 +85,8 @@ export async function addMoney(req, res) {
         }
         
         const razorpay = new Razorpay({
-            key_id:ENV.RAZORPAY_PUBLIC_ID,
-            key_secret:ENV.RAZORPAY_SECRET_ID
+            key_id:process.env.RAZORPAY_PUBLIC_ID,
+            key_secret:process.env.RAZORPAY_SECRET_ID
         });
         
         
@@ -290,7 +290,7 @@ export async function login(req, res) {
                         const token = jwt.sign({
                             userId: user._id,
                             username: user.username
-                        }, ENV.JWT_SECRET, { expiresIn: "24h" });
+                        }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
                         return res.status(200).send({
                             msg: "Login Successful...!",
