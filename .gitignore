@@ -1,3 +1,5 @@
 node_modules
-client/src/cofig.js
 server/config.js
+client/src/cofig.js
+client/node_modules
+server/node_modules
