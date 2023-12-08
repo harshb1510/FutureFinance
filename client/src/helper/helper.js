@@ -19,7 +19,8 @@ export async function getUsername() {
 /** authenticate function */
 export async function authenticate(username) {
   try {
-    return await axios.post(`https://futurefinance.onrender.com/api/authenticate`, {
+    console.log(username);
+    return await axios.post(`http://localhost:8080/api/authenticate`, {
       username,
     });
   } catch (error) {
@@ -31,7 +32,7 @@ export async function authenticate(username) {
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(
-      `https://futurefinance.onrender.com/api/user/${username}`
+      `http://localhost:8080/api/user/${username}`
     );
     
     return { data };
@@ -48,16 +49,16 @@ export async function registerUser(credentials) {
     const {
       data: { msg },
       status,
-    } = await axios.post(`https://futurefinance.onrender.com/api/register`, credentials);
+    } = await axios.post(`http://localhost:8080/api/register`, credentials);
 
     /** send email */
-    if (status === 201) {
-      await axios.post(`https://futurefinance.onrender.com/api/registerMail`, {
-        username,
-        userEmail: email,
-        text: msg,
-      });
-    }
+    // if (status === 201) {
+    //   await axios.post(`http://localhost:8080/api/registerMail`, {
+    //     username,
+    //     userEmail: email,
+    //     text: msg,
+    //   });
+    // }
 
     return Promise.resolve(msg);
   } catch (error) {
@@ -69,7 +70,7 @@ export async function registerUser(credentials) {
 export async function verifyPassword({ username, password }) {
   try {
     if (username) {
-      const { data } = await axios.post(`https://futurefinance.onrender.com/api/login`, {
+      const { data } = await axios.post(`http://localhost:8080/api/login`, {
         username,
         password,
       });
@@ -87,7 +88,7 @@ export async function updateUser(response) {
     
     
     const data = await axios.put(
-      `https://futurefinance.onrender.com/api/updateuser`,
+      `http://localhost:8080/api/updateuser`,
       response,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -105,7 +106,7 @@ export async function generateOTP(username) {
     const {
       data: { code },
       status,
-    } = await axios.get(`https://futurefinance.onrender.com/api/generateOTP`, {
+    } = await axios.get(`http://localhost:8080/api/generateOTP`, {
       params: { username },
     });
 
@@ -116,7 +117,7 @@ export async function generateOTP(username) {
       } = await getUser({ username });
       let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
 
-      //   await axios.post("https://futurefinance.onrender.com/api/registerMail", {
+      //   await axios.post("http://localhost:8080/api/registerMail", {
       //     username,
       //     userEmail: email,
       //     text,
@@ -155,7 +156,7 @@ export async function generateOTP(username) {
 export async function verifyOTP({ username, code }) {
   try {
     const { data, status } = await axios.get(
-      `https://futurefinance.onrender.com/api/verifyOTP`,
+      `http://localhost:8080/api/verifyOTP`,
       { params: { username, code } }
     );
     return { data, status };
@@ -167,8 +168,9 @@ export async function verifyOTP({ username, code }) {
 /** reset password */
 export async function resetPassword({ username, password }) {
   try {
+    console.log("hiiiii")
     const { data, status } = await axios.put(
-      `https://futurefinance.onrender.com/api/resetPassword`,
+      `http://localhost:8080/api/resetPassword`,
       { username, password }
     );
     return Promise.resolve({ data, status });

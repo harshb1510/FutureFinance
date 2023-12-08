@@ -223,10 +223,11 @@ export async function pinMatch(req, res) {
 export async function register(req, res) {
     try {
         const { username, password, profile, email,pin, accountNumber } = req.body;
+        
 
         // Check the existing username
         const existUsername = await UserModel.findOne({ username });
-
+        
         // Check for an existing email
         const existEmail = await UserModel.findOne({ email });
 
@@ -247,9 +248,8 @@ export async function register(req, res) {
                     pin,
                     accountNumber: accountNumber1
                 });
-
                 
-
+                
                 // Save the user and handle the result
                 try {
                     const result = await user.save();
@@ -420,31 +420,26 @@ export async function resetPassword(req, res) {
 
         const { username, password } = req.body;
 
-        UserModel.findOne({ username })
-            .then(user => {
-                bcrypt.hash(password, 10)
-                    .then(hashedPassword => {
-                        UserModel.updateOne({ username: user.username },
-                            { password: hashedPassword }, function (err, data) {
-                                if (err) throw err;
-                                req.app.locals.resetSession = false; // reset session
-                                return res.status(201).send({ msg: "Record Updated...!" })
-                            });
-                    })
-                    .catch(e => {
-                        console.error(e);
-                        return res.status(500).send({
-                            error: "Unable to hash password"
-                        })
-                    })
-            })
-            .catch(error => {
-                console.error(error);
-                return res.status(404).send({ error: "Username not Found" });
-            })
+        // Find the user
+        const user = await UserModel.findOne({ username });
 
+        if (!user) {
+            return res.status(404).send({ error: "Username not found" });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update the user's password
+        await UserModel.updateOne({ username: user.username }, { password: hashedPassword });
+
+        // Reset session
+        req.app.locals.resetSession = false;
+
+        return res.status(201).send({ msg: "Record Updated...!" });
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ error });
+        return res.status(500).send({ error: "Internal Server Error" });
     }
 }
+
