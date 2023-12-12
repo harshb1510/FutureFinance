@@ -72,7 +72,7 @@ export default function Password() {
       <div className="gradient2"></div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
 
-      <div className="username-wrapper profile-content flex justify-center items-center h-screen">
+      <div className="username-wrapper profile-content flex justify-center items-center">
         <div className="">
           <div >
             <h4 style={{fontSize:"30px",marginBottom:"10px"}}>

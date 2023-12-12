@@ -41,6 +41,7 @@
 
 .carousel-text{
     font-size: 60px;
+    font-weight: bold;
 }
 
 .carousel-button {
@@ -50,6 +51,7 @@
     border-radius: 20px;
     padding: 9px;
     cursor: pointer;
+    color: black;
   
     /* Add transition properties */
     transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;

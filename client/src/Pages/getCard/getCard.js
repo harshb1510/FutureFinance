@@ -1,5 +1,5 @@
 // CreditCard.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import "./getCard.css";
 import jwtDecode from "jwt-decode";
 import ENV from '../../cofig.js'
@@ -14,7 +14,8 @@ const CreditCard = () => {
   const decodedUser =   user? jwtDecode(user):null;
   // const { username } = useAuthStore(state => state.auth)
 
-  const [name, setName] = useState("")
+  const [name, setName] = useState("");
+  const [account,setAccount]  = useState("");
   
   const username = decodedUser? decodedUser.username:null;
 
@@ -26,6 +27,7 @@ const CreditCard = () => {
     .then(data => {
       // console.log(data)
       setName(data.username)
+      setAccount(data.accountNumber);
       // console.log(profile)
     })
     .catch(err => console.log(err))
@@ -35,6 +37,38 @@ const CreditCard = () => {
     fetchUser()
 
   }, [username])
+
+  const driftWidgetRef = useRef(null);
+
+  useEffect(() => {
+    // Load Drift widget script
+    const script = document.createElement('script');
+    script.src = 'https://widget-url.com';
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      // Initialize Drift widget
+      window.drift.on('ready', (api) => {
+        driftWidgetRef.current = api;
+
+        // Set up event listener for a user gesture (e.g., button click)
+        document.getElementById('startChatButton').addEventListener('click', () => {
+          // Ensure the AudioContext is resumed after a user gesture
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          audioContext.resume().then(() => {
+            // Trigger Drift API functionality after the user gesture
+            driftWidgetRef.current.show();
+          });
+        });
+      });
+    };
+
+    return () => {
+      // Cleanup script when component is unmounted
+      document.body.removeChild(script);
+    };
+  }, []);
   
   
 
@@ -72,7 +106,7 @@ const CreditCard = () => {
     };
   }, ); // Empty dependency array to run the effect only once
 
-  return (
+  return (<>
     <div className="wrapper">
               <div className="gradient2"></div>
       <div className="card">
@@ -92,13 +126,14 @@ const CreditCard = () => {
               </div>{" "}
               <p className="name">FutureFinance</p>{" "}
             </div>{" "}
-            <div className="chip">
+            <div className="chip ">
               {" "}
               <img
                 className="getCard-images"
                 src="https://raw.githubusercontent.com/dasShounak/freeUseImages/main/chip.png"
                 alt="chip"
-              />{" "}
+                />{" "}
+                <span className='ml-28 text-2xl pt-10 mt-20'>{account}</span>
             </div>{" "}
           </div>{" "}
           <div className="bottom">
@@ -112,7 +147,7 @@ const CreditCard = () => {
                   className="getCard-images"
                   src="https://raw.githubusercontent.com/dasShounak/freeUseImages/main/Visa-Logo-PNG-Image.png"
                   alt="Visa"
-                />{" "}
+                  />{" "}
               </div>{" "}
               <p className="subcategory">Finance</p>{" "}
             </div>{" "}
@@ -120,6 +155,10 @@ const CreditCard = () => {
         </div>{" "}
       </div>
     </div>
+    <div>
+    <button id="startChatButton">Start Chat</button>
+    </div>
+                  </>
   );
 };
 

@@ -2,6 +2,7 @@ import "./Service.css"
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import PaymentIcon from '@mui/icons-material/Payment';
+import { Link } from "react-router-dom";
 
 const Service = () => {
   return (
@@ -11,7 +12,7 @@ const Service = () => {
        <div className="left">
         <h1 id="heading">Our Services</h1>
        </div>
-       <div className="right">
+      <Link to='/payment'> <div className="right">
         <div className="service1">
             <PaymentIcon className="serviceIcon" style={{width:"60px",height:"60px"}}/>
             Transfer Money
@@ -26,6 +27,7 @@ const Service = () => {
             Transaction History
         </div>
        </div>
+       </Link>
     </div>
     </section>
   )

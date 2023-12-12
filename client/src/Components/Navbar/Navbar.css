@@ -77,11 +77,12 @@
     border: none;
     border-radius: 20px;
     font-size: 15px;
-    padding: 5px;
+    /* padding: 5px; */
     cursor: pointer;
-    height: 40px;
-    width: 100px;
-  }
+    height: 47px;
+    width: 106px;
+    color: black;
+}
   
   .profileImg {
     height: 60px;

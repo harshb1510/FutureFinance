@@ -49,7 +49,7 @@ import "./Navbar.css";
     return (
       <section>
         <div className="nav-container">
-          <Link to="/" className="brandLink"><div className="nav-left">FutureFinance</div></Link>
+          <Link to="/" className="brandLink cursor-pointer"><div className="nav-left cursor-pointer">FutureFinance</div></Link>
           <div className="nav-center">
           <Link to="getCard">
               <div>Get Card</div>

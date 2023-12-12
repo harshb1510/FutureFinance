@@ -25,7 +25,7 @@ const Carousel = () => {
           </h3>
           <div className="carousel-banner">
            <Link to="/payment"><button className="carousel-button">Get Started Now!</button></Link>
-            <div className="carousel-banner-images">
+            <div className="carousel-banner-images flex">
               <img
                 src="https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 className="banner-img"

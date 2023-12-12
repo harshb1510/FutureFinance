@@ -234,7 +234,7 @@ const Payment = () => {
           addMoney: parseFloat(money.addMoney),
         }
       );
-      console.log(addMoneyResponse);
+      
 
      initPayment(addMoneyResponse);
      

@@ -19,8 +19,8 @@ export async function getUsername() {
 /** authenticate function */
 export async function authenticate(username) {
   try {
-    console.log(username);
-    return await axios.post(`${ENV.HOST}/api/authenticate`, {
+    
+    return await axios.post(`${ENV.HOST}/authenticate`, {
       username,
     });
   } catch (error) {
@@ -32,7 +32,7 @@ export async function authenticate(username) {
 export async function getUser({ username }) {
   try {
     const { data } = await axios.get(
-      `${ENV.HOST}/api/user/${username}`
+      `${ENV.HOST}/user/${username}`
     );
     
     return { data };
@@ -49,11 +49,11 @@ export async function registerUser(credentials) {
     const {
       data: { msg },
       status,
-    } = await axios.post(`${ENV.HOST}/api/register`, credentials);
+    } = await axios.post(`${ENV.HOST}/register`, credentials);
 
     /** send email */
     // if (status === 201) {
-    //   await axios.post(`${ENV.HOST}/api/registerMail`, {
+    //   await axios.post(`${ENV.HOST}/registerMail`, {
     //     username,
     //     userEmail: email,
     //     text: msg,
@@ -70,7 +70,7 @@ export async function registerUser(credentials) {
 export async function verifyPassword({ username, password }) {
   try {
     if (username) {
-      const { data } = await axios.post(`${ENV.HOST}/api/login`, {
+      const { data } = await axios.post(`${ENV.HOST}/login`, {
         username,
         password,
       });
@@ -88,7 +88,7 @@ export async function updateUser(response) {
     
     
     const data = await axios.put(
-      `${ENV.HOST}/api/updateuser`,
+      `${ENV.HOST}/updateuser`,
       response,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -106,7 +106,7 @@ export async function generateOTP(username) {
     const {
       data: { code },
       status,
-    } = await axios.get(`${ENV.HOST}/api/generateOTP`, {
+    } = await axios.get(`${ENV.HOST}/generateOTP`, {
       params: { username },
     });
 
@@ -117,7 +117,7 @@ export async function generateOTP(username) {
       } = await getUser({ username });
       let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
 
-      //   await axios.post("${ENV.HOST}/api/registerMail", {
+      //   await axios.post("${ENV.HOST}/registerMail", {
       //     username,
       //     userEmail: email,
       //     text,
@@ -156,7 +156,7 @@ export async function generateOTP(username) {
 export async function verifyOTP({ username, code }) {
   try {
     const { data, status } = await axios.get(
-      `${ENV.HOST}/api/verifyOTP`,
+      `${ENV.HOST}/verifyOTP`,
       { params: { username, code } }
     );
     return { data, status };
@@ -170,7 +170,7 @@ export async function resetPassword({ username, password }) {
   try {
     console.log("hiiiii")
     const { data, status } = await axios.put(
-      `${ENV.HOST}/api/resetPassword`,
+      `${ENV.HOST}/resetPassword`,
       { username, password }
     );
     return Promise.resolve({ data, status });

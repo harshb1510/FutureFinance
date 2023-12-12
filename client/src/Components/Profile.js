@@ -21,6 +21,7 @@ export default function Profile() {
   const username = decodedUser.username;
 
   const [{ isLoading, apiData, serverError }] = useFetch(`${ENV.HOST}/user/${username}`);
+  
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -97,7 +98,12 @@ export default function Profile() {
               </div>
 
               <input {...formik.getFieldProps('address')} type='text' placeholder='Address' className='profileInput' />
+
             </div>
+            {apiData?
+            (<><span className='text-3xl'>Account Number</span><span className='text-xl weight300'>{apiData.accountNumber}</span></>):(<div></div>)
+            }
+            
               <button className="profile-update-btn" type='submit'>Update</button>
 
             <div className=" profile-logout ">
