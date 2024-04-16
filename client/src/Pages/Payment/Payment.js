@@ -76,7 +76,7 @@ const Payment = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddMoneyModalOpen, setIsAddMoneyModalOpen] = useState(false);
-  const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] =
+  const [isTransferMoneyModalOpen, setIsTransferMoneyModalOpen] = 
     useState(false);
 
   const openModal = () => {
@@ -116,8 +116,6 @@ const Payment = () => {
     setIsAddMoneyModalOpen(false);
     setIsTransferMoneyModalOpen(false);
   };
-
-
 
   const username = decodedUser ? decodedUser.username : null;
   const [data, setData] = useState({

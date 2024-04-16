@@ -59,7 +59,7 @@ function App() {
           element:<Terms/>
         },
         { path: "/payment",
-        element:
+          element:
           <Payment /> 
         },
         { path: "/transactionHistory",
